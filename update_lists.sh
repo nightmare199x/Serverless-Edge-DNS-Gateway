@@ -36,7 +36,7 @@ https://raw.githubusercontent.com/nightmare199x/blocklist_minimal/refs/heads/mai
 
 echo "Downloading and processing allowlists..."
 curl -fsSL --max-time 60 \
-https://raw.githubusercontent.com/nextdns/click-tracking-domains/main/domains \
+https://raw.githubusercontent.com/nightmare199x/blocklist_minimal/refs/heads/main/whitelist.txt \
 | extract_domains > "$ALLOW_TMP"
 
 # Di chuyển file tmp vào thư mục đích
