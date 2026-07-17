@@ -30,46 +30,14 @@ extract_domains() {
 }
 
 echo "Downloading and processing blocklists..."
-
-> "$BLOCK_TMP"
-
-for url in \
-"https://raw.githubusercontent.com/nextdns/click-tracking-domains/main/domains" \
-"https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/popupads-onlydomains.txt" \
-"https://raw.githubusercontent.com/bigdargon/hostsVN/master/extensions/threat/hosts-VN" \
-"https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/tif.mini-onlydomains.txt" \
-"https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt"
-do
-    echo "Downloading: $url"
-
-    if curl -fsSL --max-time 60 "$url" | extract_domains >> "$BLOCK_TMP"; then
-        echo "✓ Success"
-    else
-        echo "✗ Failed"
-    fi
-done
-
-sort -u "$BLOCK_TMP" -o "$BLOCK_TMP"
+curl -fsSL --max-time 60 \
+https://raw.githubusercontent.com/nightmare199x/blocklist_minimal/refs/heads/main/blocklists.txt \
+| extract_domains > "$BLOCK_TMP"
 
 echo "Downloading and processing allowlists..."
-
-> "$ALLOW_TMP"
-
-for url in \
-"https://raw.githubusercontent.com/bibicadotnet/AdGuard-Home-blocklists/main/whitelist.txt" \
-"https://raw.githubusercontent.com/nextdns/click-tracking-domains/main/domains" \
-"https://raw.githubusercontent.com/hagezi/dns-blocklists/main/allow.txt"
-do
-    echo "Downloading: $url"
-
-    if curl -fsSL --max-time 60 "$url" | extract_domains >> "$ALLOW_TMP"; then
-        echo "✓ Success"
-    else
-        echo "✗ Failed"
-    fi
-done
-
-sort -u "$ALLOW_TMP" -o "$ALLOW_TMP"
+curl -fsSL --max-time 60 \
+https://raw.githubusercontent.com/nextdns/click-tracking-domains/main/domains \
+| extract_domains > "$ALLOW_TMP"
 
 # Di chuyển file tmp vào thư mục đích
 mv "$BLOCK_TMP" "$BLOCK_OUT"
